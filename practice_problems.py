@@ -1,66 +1,52 @@
-"""
-Problem 1: Duplicate Tracker
-
-You are given a collection of product IDs. Some IDs may appear more than once.
-Write a function that returns True if any duplicates are found, and False otherwise.
-
-Example:
-Input: [10, 20, 30, 20, 40]
-Output: True
-
-Input: [1, 2, 3, 4, 5]
-Output: False
-"""
-
+# Problem 1: Duplicate Tracker
 def has_duplicates(product_ids):
-    # Your implementation here
-    pass
+    """
+    We use a set because it enforces uniqueness and provides O(1) average-time lookups.
+    As we iterate through product_ids, we check if an element is already in the set.
+    If yes, return True immediately; otherwise add it. This is efficient compared to nested loops.
+    Overall runtime: O(n), space: O(n).
+    """
+    seen = set()
+    for pid in product_ids:
+        if pid in seen:
+            return True
+        seen.add(pid)
+    return False
 
 
-"""
-Problem 2: Order Manager
-
-You need to maintain a list of tasks in the order they were added, and support removing tasks from the front.
-Implement a class that supports add_task(task) and remove_oldest_task().
-
-Example:
-task_queue = TaskQueue()
-task_queue.add_task("Email follow-up")
-task_queue.add_task("Code review")
-task_queue.remove_oldest_task() → "Email follow-up"
-"""
+# Problem 2: Order Manager
+from collections import deque
 
 class TaskQueue:
+    """
+    We use a queue (collections.deque) because tasks must be processed in the order added (FIFO).
+    Adding to the back and removing from the front are both O(1) operations in deque, unlike a list
+    which would take O(n) for front removals.
+    """
     def __init__(self):
-        # Your initialization here
-        pass
+        self.queue = deque()
 
     def add_task(self, task):
-        pass
+        self.queue.append(task)  # O(1)
 
     def remove_oldest_task(self):
-        pass
+        if self.queue:
+            return self.queue.popleft()  # O(1)
+        return None
 
 
-"""
-Problem 3: Unique Value Counter
-
-You receive a stream of integer values. At any point, you should be able to return the number of unique values seen so far.
-
-Example:
-tracker = UniqueTracker()
-tracker.add(10)
-tracker.add(20)
-tracker.add(10)
-tracker.get_unique_count() → 2
-"""
-
+# Problem 3: Unique Value Counter
 class UniqueTracker:
+    """
+    We use a set to maintain only unique values from the stream.
+    Adding an element and checking for existence are O(1) on average.
+    The unique count is simply the size of the set, which is O(1) to retrieve.
+    """
     def __init__(self):
-        pass
+        self.unique_values = set()
 
     def add(self, value):
-        pass
+        self.unique_values.add(value)
 
     def get_unique_count(self):
-        pass
+        return len(self.unique_values)
